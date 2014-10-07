@@ -5,7 +5,6 @@
 import requests
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-import re
 
 def make_soup(url):
 	r = requests.get(url)
@@ -21,6 +20,6 @@ for aphorism in aphorisms:
 	aphorism = aphorism.get_text() # Strip out all of the HTML 
 	strippedList.append(aphorism)
 
-print(strippedList)
+# print(strippedList)
 
-# print(list(OrderedDict.fromkeys(strippedList)))
+print(list(OrderedDict.fromkeys(strippedList)))
