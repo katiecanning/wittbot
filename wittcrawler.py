@@ -4,7 +4,6 @@
 
 import requests
 from bs4 import BeautifulSoup
-from collections import OrderedDict
 import re
 
 def make_soup(url):
@@ -19,8 +18,26 @@ aphorisms = soup.findAll("dd")
 strippedList = []
 for aphorism in aphorisms:
 	aphorism = aphorism.get_text() # Strip out all of the HTML 
+	aphorism = aphorism.replace("\r", "") # Strip out carriage returns and new line characters
+	aphorism = aphorism.replace("\n", "")
 	strippedList.append(aphorism)
 
-print(strippedList)
+def split_soup_elements(list):
+	# Takes a list of the strings scraped from the web page and splits elements with more than one sentence using reg ex
 
-# print(list(OrderedDict.fromkeys(strippedList)))
+	fullListOfMatches = []
+	for item in list:
+		# All matches that begin with A-Z or 0-9, contain zero or more of any character, and end with ".", "?" or "!" not followed by another alphanumeric character 
+		matches = re.findall("[A-Z0-9].*?[\?\.!]", item) 
+		fullListOfMatches += matches
+
+	for item in fullListOfMatches:
+		itemCount = fullListOfMatches.count(item)
+		if itemCount > 1:
+			fullListOfMatches.remove(item) 
+
+	return fullListOfMatches
+
+
+finalList = split_soup_elements(strippedList)
+print(finalList)
