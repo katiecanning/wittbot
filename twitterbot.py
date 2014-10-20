@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import tweepy
 
 def authenticate_account():
@@ -33,7 +32,7 @@ def authenticate_account():
     return api
 
 def read_content(botTextContent):
-    '''Reads the raw tweet content and returns a list containing
+    '''Reads raw tweet content and returns a list containing
     sub-tweets for tweets of more than 140 characters.'''
     # This function needs cleaning up. 
     
@@ -56,7 +55,7 @@ def read_content(botTextContent):
                 length = sum(len(item) for item in subTweets) # Get the collective length of all of the subtweets. Bug here - it takes into account length of everything in subTweets, including subTweets of other
                 if counter > 0 and counter < int((len(line) / 137) + 1): # All cases between the initial tweet section and the final tweet section
                     tweetSection = line[startChar:splitIndex] + "..." 
-                elif counter == int((len(line) / 137) + 1): # The final tweet section
+                elif counter == int((len(line) / 137) + 1): # The final tweet section.
                     tweetSection = "..." + line[startChar:splitIndex]
                 subTweets.append(tweetSection)
                 startChar = splitIndex + 1
@@ -67,7 +66,7 @@ def read_content(botTextContent):
     return tweets
 
 def get_untweeted_tweet(tweets):
-    '''Finds and returns the first example of a Tweet 
+    '''Finds and returns the first example of a tweet 
     that we haven't tweeted before by checking the logs.'''
 
     f = open("testbotlog.txt", "r")
@@ -85,14 +84,11 @@ def get_untweeted_tweet(tweets):
 def make_post(api, tweet):
     '''Tweet the bloody thing!'''
 
-    # print(tweet)
-    # print(len(tweet))
     api.update_status(tweet)
     # time.sleep(900) # Tweet every 15 minutes. Perhaps better to do this in a cron job. 
     f = open("testbotlog.txt", "a")
     # tweetTime = strftime("%d %b %Y %H %M", gmtime())
-    # f.write(tweetTime + " " + line+ "\n") # This logs the time and date of the tweet
-    # as well as the tweet itself. Problem is, it messes with checking the tweet logs.
+    # f.write(tweetTime + " " + line+ "\n") # This logs the time and date of the tweet as well as the tweet itself. Problem is, it messes with checking the tweet logs.
     # Will fix, perhaps with reg ex, but for now we'll just leave out the time and date. 
     f.write(tweet + "\n")
     f.close()

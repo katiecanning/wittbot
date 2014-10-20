@@ -61,4 +61,4 @@ if __name__ == "__main__":
 	api = twitterbot.authenticate_account()
 	tweets = twitterbot.read_content(fullListOfMatches)
 	tweet = twitterbot.get_untweeted_tweet(tweets)
-	twitterbot.make_post(api, tweet)
+	# twitterbot.make_post(api, tweet)
