@@ -20,7 +20,6 @@ def authenticate_account():
             index += 1
 
     # Now we can get the various authentication keys required and authenticate!
-    # Should maybe put this in a function for future use.
     CONSUMER_KEY = apiKeys[0]
     CONSUMER_SECRET = apiKeys[1]
     ACCESS_KEY = apiKeys[2]
@@ -44,18 +43,29 @@ def read_content(botTextContent):
         counter = 0
         startChar = 0
         endChar = 136
+        
         if len(line) <= 140:
             tweets.append(line)
         else:
-            while length + (3 * counter) < len(line): # (3 * counter) accounts for the ellipses that have been added to each tweetSection.
-                splitIndex = line.rfind(" ", startChar, endChar) # Returns last index where " " is found between indices startChar and endChar
+            # (3 * counter) accounts for the ellipses that have been added to
+            # each tweetSection.
+            while length + (3 * counter) < len(line):
+                # Returns last index where " " is found between indices 
+                # startChar and endChar.
+                splitIndex = line.rfind(" ", startChar, endChar) 
                 if counter == 0:
                     subTweets = []
                     tweetSection = line[startChar:splitIndex] + "..."
-                length = sum(len(item) for item in subTweets) # Get the collective length of all of the subtweets. Bug here - it takes into account length of everything in subTweets, including subTweets of other
-                if counter > 0 and counter < int((len(line) / 137) + 1): # All cases between the initial tweet section and the final tweet section
+                # Get the collective length of all of the subtweets. 
+                # Bug here - it takes into account length of everything in 
+                # subTweets, including subTweets of other.
+                length = sum(len(item) for item in subTweets) 
+                # All cases between the initial tweet section and the final
+                # tweet section.
+                if counter > 0 and counter < int((len(line) / 137) + 1): 
                     tweetSection = line[startChar:splitIndex] + "..." 
-                elif counter == int((len(line) / 137) + 1): # The final tweet section.
+                # The final tweet section.
+                elif counter == int((len(line) / 137) + 1): 
                     tweetSection = "..." + line[startChar:splitIndex]
                 subTweets.append(tweetSection)
                 startChar = splitIndex + 1
@@ -76,7 +86,8 @@ def get_untweeted_tweet(tweets):
 
     tweets = [item.rstrip() for item in tweets]
 
-    for line in tweets: # Let's find the first tweet that hasn't been tweeted yet! 
+    # Let's find the first tweet that hasn't been tweeted yet! 
+    for line in tweets: 
         if not line in newLog:
             return line 
 
@@ -85,10 +96,13 @@ def make_post(api, tweet):
     '''Tweet the bloody thing!'''
 
     api.update_status(tweet)
-    # time.sleep(900) # Tweet every 15 minutes. Perhaps better to do this in a cron job. 
+    # Tweet every 15 minutes. Perhaps better to do this in a cron job. 
+    # time.sleep(900) 
     f = open("testbotlog.txt", "a")
     # tweetTime = strftime("%d %b %Y %H %M", gmtime())
-    # f.write(tweetTime + " " + line+ "\n") # This logs the time and date of the tweet as well as the tweet itself. Problem is, it messes with checking the tweet logs.
+    # This logs the time and date of the tweet as well as the tweet itself. 
+    # Problem is, it messes with checking the tweet logs.
+    # f.write(tweetTime + " " + line+ "\n") 
     # Will fix, perhaps with reg ex, but for now we'll just leave out the time and date. 
     f.write(tweet + "\n")
     f.close()
