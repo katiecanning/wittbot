@@ -95,7 +95,8 @@ def get_untweeted_tweet(tweets):
 def make_post(api, tweet):
     '''Tweet the bloody thing!'''
 
-    api.update_status(tweet)
+    print(tweet)
+    # api.update_status(tweet)
     # Tweet every 15 minutes. Perhaps better to do this in a cron job. 
     # time.sleep(900) 
     f = open("testbotlog.txt", "a")
