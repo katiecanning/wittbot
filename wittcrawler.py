@@ -65,14 +65,11 @@ if __name__ == "__main__":
 	strippedList = strip_formatting(aphorisms)
 	fullListOfMatches = split_soup_elements(strippedList)
 
-	try:
-		# Authenticate our account, split up our content into tweets
-		# of under 140 characters, find a line that hasn't been tweeted yet,
-		# and tweet that thing!
-		api = twitterbot.authenticate_account()
-		print(api)
-		tweets = twitterbot.read_content(fullListOfMatches)
-		tweet = twitterbot.get_untweeted_tweet(tweets)
-		twitterbot.make_post(api, tweet)
-	except Exception, e:
-		print("Uh-oh, something went wrong.")
+
+	# Authenticate our account, split up our content into tweets
+	# of under 140 characters, find a line that hasn't been tweeted yet,
+	# and tweet that thing!
+	api = twitterbot.authenticate_account()
+	tweets = twitterbot.read_content(fullListOfMatches)
+	tweet = twitterbot.get_untweeted_tweet(tweets)
+	twitterbot.make_post(api, tweet)
