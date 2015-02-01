@@ -89,14 +89,14 @@ def get_untweeted_tweet(tweets):
     # Let's find the first tweet that hasn't been tweeted yet! 
     for line in tweets: 
         if not line in newLog:
-            return line 
+            return str(line)
 
 
 def make_post(api, tweet):
     '''Tweet the bloody thing!'''
 
     print(tweet)
-    # api.update_status(tweet)
+    api.update_status(tweet)
     # Tweet every 15 minutes. Perhaps better to do this in a cron job. 
     # time.sleep(900) 
     f = open("testbotlog.txt", "a")
